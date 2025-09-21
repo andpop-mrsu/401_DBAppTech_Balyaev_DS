@@ -1,4 +1,5 @@
 <?php
+
 namespace godneverforget\minesweeper;
 
 class GameModel
@@ -24,7 +25,6 @@ class GameModel
 
     private function initializeFields(): void
     {
-        // Initialize empty fields
         $this->mineField = array_fill(0, $this->size, array_fill(0, $this->size, 0));
         $this->visibleField = array_fill(0, $this->size, array_fill(0, $this->size, ' '));
     }
@@ -37,7 +37,6 @@ class GameModel
             $row = random_int(0, $this->size - 1);
             $col = random_int(0, $this->size - 1);
 
-            // Don't place mine on first click or where mines already exist
             if (($row === $firstRow && $col === $firstCol) || $this->mineField[$row][$col] === -1) {
                 continue;
             }
@@ -45,10 +44,11 @@ class GameModel
             $this->mineField[$row][$col] = -1;
             $minesPlaced++;
 
-            // Update adjacent cells
             for ($dr = -1; $dr <= 1; $dr++) {
                 for ($dc = -1; $dc <= 1; $dc++) {
-                    if ($dr === 0 && $dc === 0) continue;
+                    if ($dr === 0 && $dc === 0) {
+                        continue;
+                    }
 
                     $nr = $row + $dr;
                     $nc = $col + $dc;
@@ -69,27 +69,22 @@ class GameModel
             return ['game_over' => false, 'win' => false, 'adjacent_mines' => 0];
         }
 
-        // Place mines on first click (to ensure first click is safe)
         if (!$this->gameStarted) {
             $this->placeMines($row, $col);
         }
 
-        // Check if cell is already opened or flagged
         if ($this->visibleField[$row][$col] !== ' ' && $this->visibleField[$row][$col] !== 'F') {
             return ['game_over' => false, 'win' => false, 'adjacent_mines' => 0];
         }
 
-        // Check for mine
         if ($this->mineField[$row][$col] === -1) {
-            $this->visibleField[$row][$col] = '*'; // Exploded mine
+            $this->visibleField[$row][$col] = '*';
             $this->revealAllMines();
             return ['game_over' => true, 'win' => false, 'adjacent_mines' => 0];
         }
 
-        // Open cell
         $this->revealCell($row, $col);
 
-        // Check for win
         if ($this->checkWin()) {
             return ['game_over' => true, 'win' => true, 'adjacent_mines' => $this->mineField[$row][$col]];
         }
@@ -110,11 +105,12 @@ class GameModel
         $mineCount = $this->mineField[$row][$col];
         $this->visibleField[$row][$col] = $mineCount === 0 ? '0' : (string)$mineCount;
 
-        // If cell has no adjacent mines, reveal neighbors
         if ($mineCount === 0) {
             for ($dr = -1; $dr <= 1; $dr++) {
                 for ($dc = -1; $dc <= 1; $dc++) {
-                    if ($dr === 0 && $dc === 0) continue;
+                    if ($dr === 0 && $dc === 0) {
+                        continue;
+                    }
 
                     $this->revealCell($row + $dr, $col + $dc);
                 }
