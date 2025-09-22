@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use godneverforget\minesweeper\ConsoleApplication;
+
+try {
+    $app = new ConsoleApplication();
+    $app->run($argv);
+} catch (Exception $e) {
+    \cli\err("Error: " . $e->getMessage());
+    exit(1);
+}
