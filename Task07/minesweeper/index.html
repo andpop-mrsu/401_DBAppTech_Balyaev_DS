@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сапер</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Сапер</h1>
+        </header>
+
+        <div id="main-menu" class="menu-section">
+            <h2>Главное меню</h2>
+            <button id="new-game-btn">Новая игра</button>
+            <button id="view-games-btn">Список партий</button>
+        </div>
+
+        <div id="game-setup" class="menu-section hidden">
+            <h2>Настройка игры</h2>
+            <div class="form-group">
+                <label for="player-name">Имя игрока:</label>
+                <input type="text" id="player-name" placeholder="Введите ваше имя" value="Игрок">
+            </div>
+            <div class="form-group">
+                <label for="field-size">Размер поля:</label>
+                <input type="number" id="field-size" min="5" max="20" value="10">
+            </div>
+            <div class="form-group">
+                <label for="mines-count">Количество мин:</label>
+                <input type="number" id="mines-count" min="1" max="99" value="15">
+            </div>
+            <button id="start-game-btn">Начать игру</button>
+            <button id="back-to-menu-btn">Назад</button>
+        </div>
+
+        <div id="game-section" class="hidden">
+            <div class="game-info">
+                <div>Игрок: <span id="current-player"></span></div>
+                <div>Размер: <span id="current-size"></span></div>
+                <div>Мины: <span id="current-mines"></span></div>
+                <div>Ход: <span id="move-count">0</span></div>
+                <div>Флаги: <span id="flag-count">0</span></div>
+                <div id="game-status">Игра идет...</div>
+            </div>
+            <div id="game-board"></div>
+            <button id="back-to-menu-from-game">В главное меню</button>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
