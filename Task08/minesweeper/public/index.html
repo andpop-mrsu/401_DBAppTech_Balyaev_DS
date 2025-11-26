@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сапер (SPA + SQL)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Игра "Сапер"</h1>
+        
+        <!-- Навигация -->
+        <div class="nav">
+            <button onclick="app.showNewGameScreen()">Новая игра</button>
+            <button onclick="app.loadGamesList()">Список партий</button>
+        </div>
+
+        <!-- Экран 1: Форма новой игры -->
+        <div id="screen-new-game" class="screen">
+            <h2>Параметры игры</h2>
+            <form id="new-game-form">
+                <label>Имя игрока: <input type="text" id="player-name" required></label><br>
+                <label>Размер поля (5-20): <input type="number" id="grid-size" value="10" min="5" max="20" required></label><br>
+                <label>Количество мин: <input type="number" id="mines-count" value="10" min="1" required></label><br>
+                <button type="submit">Начать</button>
+            </form>
+        </div>
+
+        <!-- Экран 2: Игровое поле (или просмотр реплея) -->
+        <div id="screen-game" class="screen hidden">
+            <div class="game-info">
+                <span id="game-status">Идет игра</span>
+                <button id="replay-next-btn" class="hidden" onclick="app.replayNextStep()">Следующий ход</button>
+            </div>
+            <div id="minesweeper-grid"></div>
+        </div>
+
+        <!-- Экран 3: Список игр -->
+        <div id="screen-list" class="screen hidden">
+            <h2>История игр</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Дата</th>
+                        <th>Игрок</th>
+                        <th>Поле</th>
+                        <th>Мины</th>
+                        <th>Статус</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody id="games-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

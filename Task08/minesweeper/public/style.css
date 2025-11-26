@@ -1,0 +1,293 @@
+/* Переменные цветов для легкой настройки */
+:root {
+    --bg-color: #eef2f5;
+    --card-bg: #ffffff;
+    --primary-color: #4a90e2;
+    --primary-hover: #357abd;
+    --text-color: #333;
+    --cell-closed: #b0bec5;
+    --cell-closed-hover: #cfd8dc;
+    --cell-open: #eceff1;
+    --mine-bg: #e74c3c;
+    --flag-color: #f1c40f;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Навигация */
+.nav {
+    margin-bottom: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.nav button {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+}
+
+/* Экраны */
+.screen {
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Форма новой игры */
+form {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    max-width: 400px;
+}
+
+label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Игровое поле */
+.game-info {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#replay-next-btn {
+    padding: 5px 15px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#minesweeper-grid {
+    display: grid;
+    gap: 2px;
+    /* Небольшой отступ между клетками */
+    background-color: #bdc3c7;
+    /* Цвет линий между клетками */
+    padding: 2px;
+    border-radius: 4px;
+    /* box-shadow: inset 0 0 10px rgba(0,0,0,0.2);  <-- УБРАЛИ */
+}
+
+/* Клетка - убрали внутренние тени (объем) */
+.cell {
+    width: 35px;
+    height: 35px;
+    background-color: var(--cell-closed);
+    border-radius: 2px;
+    /* Чуть скругленные углы, но плоские */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+/* Эффект при наведении - просто меняем цвет, без увеличения */
+.cell:hover:not(.open):not(.flag) {
+    background-color: var(--cell-closed-hover);
+    /* transform: scale(1.05); <-- УБРАЛИ УВЕЛИЧЕНИЕ */
+    z-index: 1;
+}
+
+/* Открытая клетка - чуть светлее */
+.cell.open {
+    background-color: var(--cell-open);
+    cursor: default;
+}
+
+/* Мина и Флаг */
+.cell.mine {
+    background-color: var(--mine-bg);
+    color: white;
+}
+
+.cell.flag {
+    color: var(--flag-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    50% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    100% {
+        transform: translate(1px, -1px) rotate(0deg);
+    }
+}
+
+/* Цвета цифр (как в классике) */
+.val-1 {
+    color: #303f9f;
+}
+
+.val-2 {
+    color: #2e7d32;
+}
+
+.val-3 {
+    color: #d32f2f;
+}
+
+.val-4 {
+    color: #7b1fa2;
+}
+
+.val-5 {
+    color: #ff8f00;
+}
+
+.val-6 {
+    color: #0097a7;
+}
+
+.val-7 {
+    color: #424242;
+}
+
+.val-8 {
+    color: #9e9e9e;
+}
+
+/* Таблица истории */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+    background-color: #f5f5f5;
+}
+
+table button {
+    padding: 5px 10px;
+    background-color: #607d8b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
